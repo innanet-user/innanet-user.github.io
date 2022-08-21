@@ -1,0 +1,132 @@
+    ┌────────────────────────────────────────────────────────────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────┐
+    │Bee Gee Gees Pee Three writeup                                                                  │                                                                     	 │
+    │breaking gnome-logs like a G_critical(Triple6)												     │                                                            ▀▀█      	 │
+    │breaking gnome-logs like a G_critical(Triple6)                                                  │                                                            ▀▀█      	 │
+    │breaking gnome-logs like a G_critical(Triple6)                                                  │                                                            ▀▀▀      	 │
+    │                                                                                                │         ▄             ▄▄▄▄ ▄          ▄▄▄▄ ▄        ▄▄▄▄▄           	 │
+    │Since i dont know anything about reversing binaries and assuming everything just                │        █           ▄▀▀    ▀█       ▄▀▀    ▀█      ▄▀     ▀▄         	 │
+    │works, i did the most reasonable thing : checking the apps that come along with                 │       █▄▄▀▀▀▄▄     ▀▄     ▄█       ▀▄     ▄█      █       █         	 │
+    │Debian 11 distro of GNU GPL LINUX. List of apps that people mostly include in their installs are│       █       █    ▄ ▀▀▀▀▀ █       ▄ ▀▀▀▀▀ █      █▄▄▄▄▄▄▀          	 │
+    ├────────────────────────────────────────────────────────────────────────────────────────────────┤        ▀▄▄▄▄▄▀      ▀▄▄▄▄▄▀         ▀▄▄▄▄▄▀        ▀▄               	 │
+    │gnome-[...]                                                                                     │                                                                     	 │
+    │sublime                                                                                         │       @@   @@@       @@   @@@        @@   @@@      @@   @@@         	 │
+    │ffmpeg                                                                                          │      @for@ @the@    @lov@ @eof@     @fin@ @din@   @gne@ @wbu@       	 │
+    │nmap                                                                                            │\\\\  @gs,c@rash@    @esan@derr@     @orss@otha@   @topp@scan@       	 │
+    │apt-get                                                                                         │  +---@  )---(  @----@  )---(  @-- --@  )---( -- --@  )---(  @--->   	 │
+    │gedit                                                                                           │////   @getfuck@      @edandfr@       @iendsin@     @needcan@        	 │
+    │gnome video player                                                                              │        @getbr@        @ead.b@         @egaya@       @nddoc@         	 │
+    │curl                                                                                            │         @rim@          @ewr@           @ite@         @upb@          	 │
+    │unzip                                                                                           │          @y@            @V@             @E@           @X@           	 │
+    │zip                                                                                             │           @              @               @             @            	 │
+    ├────────────────────────────────────────────────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+    │i tried to break sublime text with this parsing error                                           │ Oops, all crashes! accidentally found out that it crashes           	 │
+    │https://twitter.com/netspooky/status/1180917428261400578                                        │ sublime text and just went from there, also u can use:              	 │
+    │since sublime text was fixed with that, next best thing would be gnome suite of apps            │ https://github.com/mathiasbynens/small                              	 │
+    │I picked yelp, but i couldnt reproduce the error on my other VM. So then i moved over           │ or similar to game the expected/filesufrommthetprogram.ns/small     	 │
+    │to gnome-logs. reading the recommendation of https://tmpout.sh/bggp/3/, honggfuzz can help      │                                                                    	 │
+    ├───Hongfuzz - live, laugh and love with your new friend!────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+    │honggfuzz can fuzz inputs, if you give inputs, like some total jank files that dont make any    │honggfuzz -i fuzzing/ -x -- /usr/bin/gnome-logs ___FILE___           	 │
+    │structure, fuzzing gnome-logs for 1 minute, alot of sigabrt and sigsev.                         │  for FILE in *; do echo $FILE; /usr/bin/gnome-logs                  	 │
+    │crashes are being produced.                                                                     │$FILE; done                                  	 │
+    ├───Pick your poison reverse engineer, compile or work from existing binary: ────────────────────┤                                                                     	 │
+    │It can be intimidating to try and finding why the binary crashes with your brand new            │Initially went with direct gdb and fussing around with bs            	 │
+    │totally garbage input file, so there are 2 ways to find out, compile said app or work           │then retr0id suggested to compile gnome-logs which was on            	 │
+    │with what u have. Trying the not compiling method ends up with alot of guesswork,               │meson, anyways that was in it self adventure and i got it            	 │
+    │fustration, skante dreams and not so high socks.                                                │at the end of the day, there were 2 gnome-logs on vm.                	 │
+    ├───Learning how to GDB, by GEF:─────────────────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+    │I dont know anything about GDB, only thing i know is, i know what addresses look like,          │ gdb --args /usr/local/bin/gnome-logs "newtry.journal"				 │
+		│																							 │																		 │
+    │whats an x86 instruction and whats a register. So with this information, i installed            │                                                                   	 │
+    │GEF and was dumbfounded by what the fuck i was looking at. Only thing that i saw decipherable   │                src/gl-journal.c+405                               	 │
+    │was SIGSEV and SIGABRT in red letters. Knowing i was totally out of my comfort zone, i asked    │                                                                    	 │
+    │for help from banesec, retr0id.                                                                 │                                                                   	 │
+    │   Learning gdb with friends!                                                                   │                                                                    	 │
+    │Since i just knew the command run in gdb, i asked what do i do in gdb. i needed to look at      │400	     G_OBJECT_CLASS (gl_journal_parent_class)->finalize (object);│
+    │multiple things whilst stepping trough the program:                                             │401	 }																 │
+    │                                    															 │																		 │
+    │      threads section                                                                           │402	 																 │
+    │                                      															 │																		 │
+    │      trace section                                                                             │403	 static void													 │
+    │                           																	 │																		 │
+    │      code section                                                                              │404	 gl_journal_constructed (GObject *object)						 │
+   	│																								 │																		 │
+    │when it reached sigsev, i needed to do                                                          ├───► 405	 {															 │
+    │                                																 │																		 │
+    │     ─►bt                                                                                       │406	     GlJournal *self;											 │
+    │                  																				 │																		 │
+    │and it would spew out bunch of info, regarding information of last functions that the program   │407	 																 │
+    │                                     															 │																		 │
+    │hit, such as                                                                                    │408	     fprintf(stderr,"pointer to object is = %p\n",object) 		 │
+	│																								 │																		 │
+    │      journal_file_reset_location                                                               │409	 																 │
+    │                                      															 │																		 │
+    │      [...]                                                                                     │410	     GlJournalPrivate *priv;									 │
+    │           																					 │																		 │
+    │      gl_journal_get_boots                                                                      │                                                                       │
+    │      gl_journal_constructed                                                                    │                                                                       │
+    │      [...]                                                                                     │            later in code...                                           │
+    │That didnt really tell anything more in depth and to learn more in-depth i had to stop at       │                                                                       │
+    │those functions. It is required to set a breakpoint or the program will execute normally,       │                                                                       │
+    │it is possible to set a breakpoint by writing                                                   │446	     if (ret < 0)												 │
+    │ 																								 │													                     │
+    │     ─►break gl_journal_constructed                                                             │447	     {															 │
+    │                                 																 │																		 │
+    │and then gdb knows to break at that place and not at sigsev.                                    │448	       g_critical ("Error opening systemd journal: %s            │
+    ├── whats that? and what does that do?───────────────────────────────────────────────────────────┼────►      g_strerror (-ret));										 │
+    │           																					 │																		 │
+    │After finding out the ability to set breakpoints and stepping, it becomes VERY apparent that    │449	  //export G_DEBUG=fatal_criticals fixed it 					 │
+ 	│																								 │																	 	 │
+    │nobody knows what the program is doing, so to try to understand something than nothing          │450	     }															 │
+    │                            																	 │																	     │
+    │there are ways of getting symbols for the said program and getting in-depth look at "idk"       │451	 																 │
+    │                                     															 │																		 │
+    │Stopping at said breakpoint and noting down the possible changes requires some 4d chess,        │                                                                     	 │
+    │fortunately gdb or gef has this thing info locals                                               │                                                                       │
+    │     ─►info locals                                                                              │                    source:../src/gl-journal.c+235                     │
+    │which checks the variables in current function and typically says No locals. So then stepping   │                                                                     	 │
+    │trough multiple times and looking at it closely u can try to draw bunch of functions before     │                                                                     	 │
+    │the crash happens                                                                               │235────────► sd_journal_flush_matches (priv->journal)◄──kaboom      	 │
+    │   look at it closely... look at it closely...                                                  │236	 																 │
+    │                                     															 │																		 │
+    │before crashing, the function gl_journal_get_boots doesnt get to iterate trough                 │237	         r = sd_journal_previous (priv->journal);				 │
+	│																								 │																		 │
+    │   https://github.com/GNOME/gnome-logs/blob/master/src/gl-journal.c#L224                        │238	         if (r < 0)												 │
+    │                    																			 │																		 │
+    │and therefore our culprit is gl_journal_constructed function                                    │239	         {														 │
+    │                             																	 │																		 │
+    │   https://github.com/GNOME/gnome-logs/blob/master/src/gl-journal.c#L400                        │240 g_warning ("Error retreating the read pointer in the┼journal: %s"  │
+    │Stepping trough gdb with                                                                        │                                                                       │
+    │  ►n                                                                                      │		                                                                 │
+    │and not with stepi made bigger results than expected, carefully going trough line by            │ _packed_ struct Header {          4c50 4b53 4848 5248                 │
+    │line and googling each additional function that gets called, it is discovered that              │        uint8_t signature[8];◄───────────────────────┐                 │
+    │https://github.com/GNOME/gnome-logs/blob/master/src/gl-journal.c#L430 is                        │        le32_t compatible_flags;                     │                 │
+    │actually the culprit of the error! looking at it closelier, it becomes apparent that            │        le32_t incompatible_flags;                   │                 │
+    │g_critical does not have any exit function and plows trough rest of the code without thinking   │        uint8_t state;                               │                 │
+    │twice.                                                                                          │        uint8_t reserved[7];                         │                 │
+    │   Reproducing error, but in smaller quan-tit-ties──────────────────────────────────────────────┤        sd_id128_t file_id;                          │                 │
+    │Checking the original crash file from honggfuzz, something became apparent : 0-byte crashes     │        sd_id128_t machine_id;                       │                 │
+    │are realer than ever. Since Bggp3 requires that it must be a 1-byte file crash, time to add     │        sd_id128_t boot_id;    /* last writer */     │                 │
+    │any single byte file and see the result                                                         │        sd_id128_t seqnum_id;                        │                 │
+    │  ─►idk, use hexedit or whatever u want and then make it into a 1-byte file containing          │        le64_t header_size◄──────┐     idk           │                 │
+    │   anything really                                                                              │        le64_t arena_size;◄──────┴───────────────────┴─► actually      │
+    │running /usr/bin/gnome-logs on Linux gunz 5.15.0-46-generic #49-Ubuntu SMP Thu Aug 4 18:03:25 UT│        le64_t data_hash_table_offset;                   required,     │
+    │2022 x86_64 x86_64 x86_64 GNU/Linux with a single byte file will make it sigsev                 │        le64_t data_hash_table_size;                    rest of em     │
+    │and crash and burn and exit.                                                                    │        le64_t field_hash_table_offset;                   go 00        │
+    ├── Aftermath/fix for the said problem───────────────────────────────────────────────────────────┤        le64_t field_hash_table_size;                                  │
+    │   G_DEBUG=fatal_criticals for every gnome enviroment OR... adding return;                      │        le64_t tail_object_offset;                                     │
+    │afterwards it really is that simple to implement for every badly made g_critical() message.     │        le64_t n_objects;                                              │
+    │probably gnome developers were │mokin│ skante and drinking modelo like true skante warriors.    │        le64_t n_entries;                                              │
+    ├───────────────────────────────┴─────┴──────────────────────────────────────────────────────────┤        le64_t tail_entry_seqnum;                                      │
+    │   Shoutouts to                                                                                 │        le64_t head_entry_seqnum;                                      │
+    │   │                                                                                            │        le64_t entry_array_offset;                                     │
+    │   ├───►Retr0id    (teaching me what to look at)                                                │        le64_t head_entry_realtime;                                    │
+    │   ├───────►Banesec  (looking at it closely)                                                    │        le64_t tail_entry_realtime;   ┌────────────────────────────────┤
+    │   │                                                                                            │        le64_t tail_entry_monotonic;  │          golf.journal          │
+    │   ├────────►hyp                                                                                │        /* Added in 187 */            │ 500 bytes, should work <3 -V   │
+    │   ├──────────────►Readme (looking at it closelier)                                             │        le64_t n_data;                │                                │
+    │   │                                                                                            │        le64_t n_fields;              │ 00000000: 4c50 4b53 4848 5248  │
+    │   ├─────────────────►Netspooky  (artwork credit and explaining further steps)                  │        /* Added in 189 */            │ [....]    0000 0000 0000 0000  │
+    │   └────────────────────────────────►.skante warrirors of thugcrowd (foo noises)                │        le64_t n_tags;                │ 00000050: 0000 0000 0000 0000  │
+    │                                                                                                │        le64_t n_entry_arrays;        │ [....]    0000 0001 0000 0000  │
+    │                                                                                                │};                                    │ 000001f0: 0000 0000 EOF        │
+    └────────────────────────────────────────────────────────────────────────────────────────────────┴──────────────────────────────────────┴────────────────────────────────┘
