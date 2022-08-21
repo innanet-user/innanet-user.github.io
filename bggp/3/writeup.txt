@@ -35,7 +35,7 @@
     │fustration, skante dreams and not so high socks.                                                │at the end of the day, there were 2 gnome-logs on vm.                  │
     ├───Learning how to GDB, by GEF:─────────────────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
     │I dont know anything about GDB, only thing i know is, i know what addresses look like,          │ gdb --args /usr/local/bin/gnome-logs "newtry.journal"                 │
-                                                                                                     │                                                                       │
+    │                                                                                                │                                                                       │
     │whats an x86 instruction and whats a register. So with this information, i installed            │                                                                       │
     │GEF and was dumbfounded by what the fuck i was looking at. Only thing that i saw decipherable   │                src/gl-journal.c+405                                   │
     │was SIGSEV and SIGABRT in red letters. Knowing i was totally out of my comfort zone, i asked    │                                                                       │
