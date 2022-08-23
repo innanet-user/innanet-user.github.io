@@ -1,46 +1,46 @@
     ┌────────────────────────────────────────────────────────────────────────────────────────────────┬───────────────────────────────────────────────────────────────────────┐
     │Bee Gee Gees Pee Three writeup                                                                  │                                                                       │
-    │breaking gnome-logs like a G_critical(Triple6)                                                  │                                                            ▀▀█        │
-    │breaking gnome-logs like a G_critical(Triple6)                                                  │                                                            ▀▀█        │
-    │breaking gnome-logs like a G_critical(Triple6)                                                  │                                                            ▀▀▀        │
+    │                         breaking gnome-logs like a G_critical(Triple6)                         │                                                            ▀▀█        │
+    │                         breaking gnome-logs like a G_critical(Triple6)                         │                                                            ▀▀█        │
+    │                         breaking gnome-logs like a G_critical(Triple6)                         │                                                            ▀▀▀        │
     │                                                                                                │         ▄             ▄▄▄▄ ▄          ▄▄▄▄ ▄        ▄▄▄▄▄             │
-    │    Since i dont know anything about reversing binaries and assuming everything just            │        █           ▄▀▀    ▀█       ▄▀▀    ▀█      ▄▀     ▀▄           │
-    │works, i did the most reasonable thing : checking the apps that come along with                 │       █▄▄▀▀▀▄▄     ▀▄     ▄█       ▀▄     ▄█      █       █           │
-    │Debian 11 distro of GNU GPL LINUX. List of apps that people mostly include in their installs are│       █       █    ▄ ▀▀▀▀▀ █       ▄ ▀▀▀▀▀ █      █▄▄▄▄▄▄▀            │
-    ├────────────────────────────────────────────────────────────────────────────────────────────────┤        ▀▄▄▄▄▄▀      ▀▄▄▄▄▄▀         ▀▄▄▄▄▄▀        ▀▄                 │
-    │gnome-[...]                                                                                     │                                                                       │
-    │sublime                                                                                         │       @@   @@@       @@   @@@        @@   @@@      @@   @@@           │
-    │ffmpeg                                                                                          │      @for@ @the@    @lov@ @eof@     @fin@ @din@   @gne@ @wbu@         │
-    │nmap                                                                                            │\\\\  @gs,c@rash@    @esan@derr@     @orss@otha@   @topp@scan@         │
-    │apt-get                                                                                         │  +---@  )---(  @----@  )---(  @-- --@  )---( -- --@  )---(  @--->     │
-    │gedit                                                                                           │////   @getfuck@      @edandfr@       @iendsin@     @needcan@          │
-    │gnome video player                                                                              │        @getbr@        @ead.b@         @egaya@       @nddoc@           │
-    │curl                                                                                            │         @rim@          @ewr@           @ite@         @upb@            │
+    │    Since i dont know anything about reversing binaries and assuming everything just works, i   │        █           ▄▀▀    ▀█       ▄▀▀    ▀█      ▄▀     ▀▄           │
+    │did the most reasonable thing : Checking the apps that come along with Debian 11 distro         │       █▄▄▀▀▀▄▄     ▀▄     ▄█       ▀▄     ▄█      █       █           │
+    │ List of apps that people mostly include in their installs are text editors and other programs  │       █       █    ▄ ▀▀▀▀▀ █       ▄ ▀▀▀▀▀ █      █▄▄▄▄▄▄▀            │
+    ├────────────────scope of programs, which people could use───────────────────────────────────────┤        ▀▄▄▄▄▄▀      ▀▄▄▄▄▄▀         ▀▄▄▄▄▄▀        ▀▄                 │
+    │gnome-[...]         top                                                                         │                                                                       │
+    │sublime             journalctl                                                                  │       @@   @@@       @@   @@@        @@   @@@      @@   @@@           │
+    │ffmpeg              systemctl                                                                   │      @for@ @the@    @lov@ @eof@     @fin@ @din@   @gne@ @wbu@         │
+    │nmap                cat                                                                         │\\\\  @gs,c@rash@    @esan@derr@     @orss@otha@   @topp@scan@         │
+    │apt-get             nano                        and the rest of the /usr/bin gang               │  +---@  )---(  @----@  )---(  @-- --@  )---( -- --@  )---(  @--->     │
+    │gedit               su                                                                          │////   @getfuck@      @edandfr@       @iendsin@     @needcan@          │
+    │gnome video player  sudo                                                                        │        @getbr@        @ead.b@         @egaya@       @nddoc@           │
+    │curl                [....]                                                                      │         @rim@          @ewr@           @ite@         @upb@            │
     │unzip                                                                                           │          @y@            @V@             @E@           @X@             │
     │zip                                                                                             │           @              @               @             @              │
-    ├────────────────────────────────────────────────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
-    │    i tried to break sublime text with this parsing error                                       │  Oops, all crashes! one stream, accidentally found out that it crashes│
-    │https://twitter.com/netspooky/status/1180917428261400578                                        │sublime text and just went from there, also u can use:                 │
-    │since sublime text was fixed with that, next best thing would be gnome suite of apps            │https://github.com/mathiasbynens/small for smallest file formats for   │
-    │I picked yelp, but i couldnt reproduce the error on my other VM. So then i moved over           │crashing possible programs for not properly checking said format       │
-    │to gnome-logs. reading the recommendation of https://tmpout.sh/bggp/3/, honggfuzz can help      │                                                                       │
+    ├─────────Not everything can break, nintendo switch it up────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
+    │    I tried to break sublime text with this parsing error,                                      │    Context: Oops, all crashes! one stream, accidentally found out     │
+    │https://twitter.com/netspooky/status/1180917428261400578 since sublime text has fixed parsing   │that it crashes sublime text and just went from there, also u can use: │
+    │error, next best thing would be gnome suite of apps. So I started with yelp, because its shipped│https://github.com/mathiasbynens/small for smallest file formats for   │
+    │(https://wiki.gnome.org/Apps/Yelp) by default on debian based distros, i couldnt reproduce said │crashing possible programs for not properly checking said format       │ 
+    │crash and moved on to fuzz other apps from said list, honggfuzz tool can help finding out flaws │                                                                       │
     ├───Hongfuzz - live, laugh and love with your new friend!────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
     │    honggfuzz can fuzz inputs, if you give inputs, like some total jank files that dont make any│honggfuzz -i fuzzing/ -x -- /usr/bin/gnome-logs ___FILE___             │
     │file structure, fuzzing gnome-logs for 1 minute resulted in alot of sigabrt and sigsev crashes. │        afterwards reproducing said errors, oneliner 2 iterate         │
-    │With these generated files, it is possible to feed into the program and make it go kaboom.      │for FILE in *; do echo $FILE; /usr/bin/gnome-logs $FILE; done          │
+    │With these generated files, it is possible to feed into the program and make program go kaboom. │for FILE in *; do echo $FILE; /usr/bin/gnome-logs $FILE; done          │
     ├───Pick your poison reverse engineer, compile or work from existing binary: ────────────────────┤Initially went with direct gdb and fussing around with bs then retr0id │
     │    It can be intimidating to try and finding why the binary crashes with your brand new totally│suggested to compile gnome-logs which was on meson, anyways that was   │
     │garbage input file, so there are 2 ways to find out, compile said app or work with what u have. │in it self adventure and i got it at the end of the day, there were 2  │
-    │Trying the not compiling method ends up with alot of guesswork,fustration, skante dreams and not│gnome-logs on vm.                                                      │
-    │so high socks.                                                                                  │                                                                       │
+    │Trying not compiling method ends up with alot of guesswork, fustration, skante dreams and not   │gnome-logs on vm.                                                      │
+    │so high socks. Adventure continues with me having compiled gnome-logs with debug symbols.       │                                                                       │
     ├───Learning how to GDB, by GEF:─────────────────────────────────────────────────────────────────┼───────────────────────────────────────────────────────────────────────┤
-    │    I dont know anything about GDB, only thing i know is, i know what addresses look like,      │ gdb --args /usr/local/bin/gnome-logs "newtry.journal"                 │
-    │whats an x86 instruction and whats a register. So with this information, i installed            │                                                                       │
-    │GEF and was dumbfounded by what the fuck i was looking at. Only thing that i saw decipherable   │                src/gl-journal.c+405                                   │
-    │was SIGSEV and SIGABRT in red letters. Knowing i was totally out of my comfort zone, i asked    │                                                                       │
-    │for help from banesec, retr0id.                                                                 │                                                                       │
+    │    I dont know anything about GDB, only thing i know is, i know what memory addresses look like│ gdb --args /usr/local/bin/gnome-logs "newtry.journal"                 │
+    │what is an x86 instruction and whats a register. So with this information, i installed GEF and  │                                                                       │
+    │was dumbfounded by what the fuck i was looking at. Only thing that i saw decipherable was SIGSEV│                src/gl-journal.c+405                                   │
+    │and SIGABRT in red letters. Knowing i was totally out of my comfort zone, i asked for help from │                                                                       │
+    │banesec, retr0id.                                                                               │                                                                       │
     ├───Learning gdb with friends!───────────────────────────────────────────────────────────────────┤                                                                       │
-    │   Since i just knew the command run in gdb, i asked what do i do in gdb. i needed to look at   │400      G_OBJECT_CLASS (gl_journal_parent_class)->finalize (object);  │
+    │   Since i just knew the command run in gdb, i asked what do i do in gdb. I needed to look at   │400      G_OBJECT_CLASS (gl_journal_parent_class)->finalize (object);  │
     │multiple things whilst stepping trough the program:                                             │401  }                                                                 │
     │                                                                                                │                                                                       │
     │      threads section  (i still dont know what this means)                                      │402                                                                    │
@@ -64,7 +64,7 @@
     │      gl_journal_get_boots                                                                      │                                                                       │
     │      gl_journal_constructed                                                                    │                                                                       │
     │      [...]                                                                                     │            later in code...                                           │
-    │That didnt really tell anything more in depth and to learn more in-depth i had to stop at       │                                                                       │
+    │That didnt really tell anything more in-depth and to learn more in-depth i had to stop at       │                                                                       │
     │those functions. It is required to set a breakpoint or the program will execute normally,       │                                                                       │
     │it is possible to set a breakpoint by writing                                                   │446      if (ret < 0)                                                  │
     │                                                                                                │                                                                       │
@@ -101,7 +101,7 @@
     │actually the culprit of the error! looking at it closelier, it becomes apparent that            │        le32_t incompatible_flags;                   │                 │
     │g_critical does not have any exit function and plows trough rest of the code without thinking   │        uint8_t state;                               │                 │
     │twice.                                                                                          │        uint8_t reserved[7];                         │                 │
-    │   Reproducing error, but in smaller quan-tit-ties──────────────────────────────────────────────┤        sd_id128_t file_id;                          │                 │
+    │───Reproducing error, but in smaller quan-tit-ties──────────────────────────────────────────────┤        sd_id128_t file_id;                          │                 │
     │    Checking the original crash file from honggfuzz, something became apparent : 0-byte crashes │        sd_id128_t machine_id;                       │                 │
     │are realer than ever. Since Bggp3 requires that it must be a 1-byte file crash, time to add     │        sd_id128_t boot_id;    /* last writer */     │                 │
     │any single byte file and see the result                                                         │        sd_id128_t seqnum_id;                        │                 │
@@ -110,10 +110,10 @@
     │running /usr/bin/gnome-logs on Linux gunz 5.15.0-46-generic #49-Ubuntu SMP                      │        le64_t data_hash_table_offset;                   required,     │
     │2022 x86_64 x86_64 x86_64 GNU/Linux with a single byte file will make it sigsev                 │        le64_t data_hash_table_size;                    rest of em     │
     │and crash and burn and exit.                                                                    │        le64_t field_hash_table_offset;                   go 00        │
-    ├── Aftermath/fix for the said problem───────────────────────────────────────────────────────────┤        le64_t field_hash_table_size;                                  │
+    ├───Aftermath/fix for the said problem───────────────────────────────────────────────────────────┤        le64_t field_hash_table_size;                                  │
     │   G_DEBUG=fatal_criticals for every gnome enviroment OR... adding return;                      │        le64_t tail_object_offset;                                     │
     │afterwards it really is that simple to implement for every badly made g_critical() message.     │        le64_t n_objects;                                              │
-    │probably gnome developers were smokin  skante and drinking modelo like true skante warriors.    │        le64_t n_entries;                                              │
+    │probably gnome developers were smokin skante and drinking modelo like true skante warriors.     │        le64_t n_entries;                                              │
     ├────────────────────────────────────────────────────────────────────────────────────────────────┤        le64_t tail_entry_seqnum;                                      │
     │   Shoutouts to                                                                                 │        le64_t head_entry_seqnum;                                      │
     │   │                                                                                            │        le64_t entry_array_offset;                                     │
